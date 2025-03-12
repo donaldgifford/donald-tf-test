@@ -4,96 +4,112 @@
 variables:
   - name: ResourceNamePrefix
     description: A name to prefix to resources in this configuration
+    default: "poop"
 
-  - name: DevAWSAccountID
-    description: The AWS Account ID of the dev account.
-
-  - name: StageAWSAccountID
-    description: The AWS Account ID of the stage account.
-
-  - name: ProdAWSAccountID
-    description: The AWS Account ID of the prod account.
-
-  # Optional variables
-  - name: AWSRegion
-    description: The name of the AWS Region to use for each of the accounts.
-    default: "us-east-2"
-  # Optional variables
-  - name: region
-    description: The name of the AWS Region to use for each of the accounts.
-    default: "us-east-2"
-  - name: prefix
-    description: The name of the AWS Region to use for each of the accounts.
-    default: "donald"
-
-  - name: aws_profile
-    description: The name of the AWS Region to use for each of the accounts.
-    default: "donald-demo"
-
-  - name: delimiter
-    description: The name of the AWS Region to use for each of the accounts.
-    default: "-"
-
-  - name: bucket_name
-    description: The name of the AWS Region to use for each of the accounts.
-    default: "donald-demo"
-  # - name: DevAppVPCCIDRBlock
-  #   description: Enter the CIDR block should we use for the app VPC in the dev account (e.g. 172.31.80.0/20).
-  #   default: 10.0.0.0/16
+  # - name: NonProdAWSAccountIDs
+  #   description: The AWS Account ID of the stage account.
   #
-  # - name: StageAppVPCCIDRBlock
-  #   description: Enter the CIDR block should we use for the app VPC in the stage account (e.g. 172.31.80.0/20).
-  #   default: 10.2.0.0/16
+  # - name: ProdAWSAccountIDs
+  #   description: The AWS Account ID of the prod account.
   #
-  # - name: ProdAppVPCCIDRBlock
-  #   description: Enter the CIDR block should we use for the app VPC in the prod account (e.g. 172.31.80.0/20).
-  #   default: 10.3.0.0/16
+  # Optional variables
+  # - name: AWSRegion
+  #   description: The name of the AWS Region to use for each of the accounts.
+  #   default: "us-east-2"
+  # # Optional variables
+  # - name: region
+  #   description: The name of the AWS Region to use for each of the accounts.
+  #   default: "us-east-2"
+  #
+  # - name: prefix
+  #   description: The name of the AWS Region to use for each of the accounts.
+  #   default: "donald"
+  #
+  # - name: aws_profile
+  #   description: The name of the AWS Region to use for each of the accounts.
+  #   default: "donald-demo"
+  #
+  # - name: delimiter
+  #   description: The name of the AWS Region to use for each of the accounts.
+  #   default: "-"
+  #
+  # - name: AWSAccountID
+  #   description: AWS Account ID
+  #   type: string
+  # #
+  # - name: AWSAccountName
+  #   description: AWS Account Name
+  #   type: string
+  #
+  # # - name: Accounts
+  #   description: AWS Account Name and ID Map
+  #   type: map
+  #   default:
+  #     "{{ .AWSAccountName }}": "{{ .AWSAccountID }}"
+  #
+  - name: MyTeam
+    # - name: Accounts
+    description: List of AWSAccountID's and Names
+    # type: map
+    type: list
+
+  # - name: Teams
+  #   description: List of Teams
+  #   type: list
+  #
+  # - name: TeamName
+  #   description: Name of Team
+  #
+  # - name: Roles
+  #   description: List of roles
+  #   type: list
 
 dependencies:
   - name: infrastructure-live-root
     template-url: "{{ templateFolder }}/../../templates/_root/live"
     output-folder: "{{ outputFolder }}"
+
     variables:
-      - name: AWSAccounts
-        type: map
+      # - name: AWSAccounts
+      #   type: map
+      #   default:
+      #     dev: "{{ .DevAWSAccountID }}"
+      #     stage: "{{ .StageAWSAccountID }}"
+      #     prod: "{{ .ProdAWSAccountID }}"
+      #
+      - name: MyTeam
+        # - name: Accounts
+        type: list
+        # type: map
         default:
-          dev: "{{ .DevAWSAccountID }}"
-          stage: "{{ .StageAWSAccountID }}"
-          prod: "{{ .ProdAWSAccountID }}"
+          - name: foo
+            AWSAccountID: foo
+            Roles: foo
 
-  - name: envcommon-root
-    template-url: "{{ templateFolder }}/../../templates/_root/_envcommon"
-    output-folder: "{{ outputFolder }}/_envcommon"
+        #   - name: bar
+        #     value: bar
+    #
+  # - name: envcommon-root
+  #   template-url: "{{ templateFolder }}/../../templates/_root/_envcommon"
+  #   output-folder: "{{ outputFolder }}/_envcommon"
 
-  - name: dev-blueprint
-    template-url: "{{ templateFolder }}/../reference-arch-app-account"
-    output-folder: "{{ outputFolder }}"
-    variables:
-      - name: AWSAccountName
-        default: "dev"
-      - name: AWSAccountID
-        default: "{{ .DevAWSAccountID }}"
-      # - name: AppVPCCIDRBlock
-      #   default: "{{ .DevAppVPCCIDRBlock }}"
-
-  - name: stage-blueprint
-    template-url: "{{ templateFolder }}/../reference-arch-app-account"
-    output-folder: "{{ outputFolder }}"
-    variables:
-      - name: AWSAccountName
-        default: "stage"
-      - name: AWSAccountID
-        default: "{{ .StageAWSAccountID }}"
-      # - name: AppVPCCIDRBlock
-      #   default: "{{ .StageAppVPCCIDRBlock }}"
-
-  - name: prod-blueprint
-    template-url: "{{ templateFolder }}/../reference-arch-app-account"
-    output-folder: "{{ outputFolder }}"
-    variables:
-      - name: AWSAccountName
-        default: "prod"
-      - name: AWSAccountID
-        default: "{{ .ProdAWSAccountID }}"
-      # - name: AppVPCCIDRBlock
-      #   default: "{{ .ProdAppVPCCIDRBlock }}"
+  # - name: nonprod-blueprint
+  #   template-url: "{{ templateFolder }}/../nonprod-account"
+  #   # template-url: "{{ templateFolder }}/../reference-arch-app-account"
+  #   output-folder: "{{ outputFolder }}"
+  #   variables:
+  #     - name: AWSAccountName
+  #       default: "nonprod"
+  #     - name: AWSAccountID
+  #       default: "{{ .ProdAWSAccountID }}"
+  #
+  # - name: prod-blueprint
+  #   template-url: "{{ templateFolder }}/../prod-account"
+  #   output-folder: "{{ outputFolder }}"
+  #   # Render this dependency once for each environment the user specifies
+  #   for_each_reference: environments
+  #   variables:
+  #     - name: AWSAccountName
+  #       default: "prod"
+  #     - name: AWSAccountID
+  #       default: "{{ .ProdAWSAccountID }}"

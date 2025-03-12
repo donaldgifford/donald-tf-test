@@ -11,5 +11,5 @@ locals {
   default_region = "us-east-1"
 
   # A prefix used for naming resources.
-  name_prefix = "gruntwork"
+  name_prefix = "poop"
 }

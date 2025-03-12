@@ -5,10 +5,18 @@ variables:
   - name: ResourceNamePrefix
     description: A name to prefix to resources in this configuration
 
-  - name: AWSAccounts
-    description: A map of AWS account names to the account ID.
-    type: map
-
+  # - name: AWSAccountID
+  #   description: AWS Account ID
+  #   type: string
+  # #
+  # - name: AWSAccountName
+  #   description: AWS Account Name
+  #   type: string
+  #
+  # - name: AWSAccounts
+  #   description: A map of AWS account names to the account ID.
+  #   type: map
+  #
   # Optional variables
   - name: SkipRemoteState
     description: Whether or not to skip the remote_state block. Primarily used for testing purposes.
@@ -30,6 +38,10 @@ variables:
   - name: TerragruntVersion
     description: Used by the mise tool to automatically select which version of Terragrunt to use.
     default: v0.36.1
+
+engines:
+  - path: "*.jsonnet"
+    template_engine: "jsonnet"
 
 hooks:
   after:

@@ -1,0 +1,63 @@
+prod1: &prod1
+  name: Prod1
+  AWSAccountID: "11111111111111"
+prod2: &prod2
+  name: Prod2
+  AWSAccountID: "22222222222222"
+prod3: &prod3
+  name: Prod3
+  AWSAccountID: "33333333333333"
+prod4: &prod4
+  name: Prod4
+  AWSAccountID: "4444444444444"
+
+MyTeam:
+  # Access:
+  - <<: *prod1
+    Roles: ["Role-1", "Role-2"]
+
+  - <<: *prod2
+    Roles: ["Role-1", "Role-2"]
+
+  - <<: *prod3
+    Roles: ["Role-2"]
+
+  - <<: *prod4
+    Roles: ["Role-1", "Role-2", "Role-3"]
+
+Other-Team:
+  Access:
+    - <<: *prod1
+      Roles: ["Role-1", "Role-2"]
+
+    - <<: *prod2
+      Roles: ["Role-1", "Role-2"]
+# Teams:
+#   - name: "Team-1"
+#     Accounts:
+#       account: *Prod1
+#     Roles:
+#       - "Role-1"
+#       - "Role-2"
+#
+#   - name: "Team-2"
+#     Roles:
+#       - "Role-3"
+#
+# Accounts:
+#   - name: "Prod1"
+#     AWSAccountID: "1111111111111"
+#
+#   - name: "Prod2"
+#     AWSAccountID: "2222222222222"
+#
+#   - name: "Prod3"
+#     AWSAccountID: "3333333333333"
+#
+#   - name: "Prod4"
+#     AWSAccountID: "4444444444444"
+# Accounts:
+#   - "1111111111111"
+#   - "2222222222222"
+#   - "3333333333333"
+#   - "4444444444444"

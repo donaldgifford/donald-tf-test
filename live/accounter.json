@@ -1,0 +1,36 @@
+{
+   "MyTeam": [
+      {
+         "AWSAccountID": "11111111111111",
+         "Roles": [
+            "Role-1",
+            "Role-2"
+         ],
+         "name": "Prod1"
+      },
+      {
+         "AWSAccountID": "22222222222222",
+         "Roles": [
+            "Role-1",
+            "Role-2"
+         ],
+         "name": "Prod2"
+      },
+      {
+         "AWSAccountID": "33333333333333",
+         "Roles": [
+            "Role-2"
+         ],
+         "name": "Prod3"
+      },
+      {
+         "AWSAccountID": "4444444444444",
+         "Roles": [
+            "Role-1",
+            "Role-2",
+            "Role-3"
+         ],
+         "name": "Prod4"
+      }
+   ]
+}

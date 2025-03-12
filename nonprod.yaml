@@ -1,0 +1,19 @@
+Teams:
+  - name: "Team-1"
+  - name: "Team-2"
+
+Accounts:
+  - name: "NonProd5"
+    AWSAccountID: "5555555555555"
+
+  - name: "NonProd6"
+    AWSAccountID: "6666666666666"
+
+  - name: "NonProd7"
+    AWSAccountID: "7777777777777"
+
+  - name: "NonProd8"
+    AWSAccountID: "8888888888888"
+
+  - name: "NonProd9"
+    AWSAccountID: "9999999999999"

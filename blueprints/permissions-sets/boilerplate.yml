@@ -1,0 +1,64 @@
+# This blueprint creates the terragrunt modules necessary to deploy Postgres RDS Cluster into a single region in a
+# single account.
+
+variables:
+  # Required variables
+  - name: AWSAccountName
+    description: The name of the AWS account.
+
+  - name: AWSRegion
+    description: The name of the AWS region.
+
+  - name: TeamName
+    description: The name of the Team accessing the accounts.
+
+  - name: region
+    description: AWS Region
+
+  - name: prefix
+    description: Prefix for naming AWS resources
+
+  - name: delimiter
+    description: Character for splitting naming of resources
+
+  - name: bucket_name
+    description: AWS S3 bucket name
+
+  - name: aws_profile
+    description: The aws profile used to deploy
+
+  - name: AWSAccountList
+    description: The list of aws the permission set is linked to
+
+  # The following are convenience variables for DRY-ing up the dependencies. These are not intended to be
+  # updated/provided by users. We follow the Go convention of camelCase instead of TitleCase.
+  - name: accountOutputFolder
+    description: "The output folder that denotes the account in the infrastructure-live folder structure."
+    default: "{{ outputFolder }}/{{ .AWSAccountName }}/"
+  - name: accountRegionOutputFolder
+    description: "The output folder that denotes the region in the infrastructure-live folder structure."
+    default: "{{ .accountOutputFolder }}/{{ .AWSRegion }}/"
+
+dependencies:
+  - name: permissions-sets
+    template-url: "{{ templateFolder }}/../../templates/services/permissions-sets"
+    output-folder: "{{ .accountRegionOutputFolder }}/{{ .TeamName }}/permissions-sets"
+    variables:
+      - name: IsEnvCommon
+        type: bool
+        default: false
+
+  - name: permissions-sets-envcommon
+    template-url: "{{ templateFolder }}/../../templates/services/permissions-sets"
+    output-folder: "{{ outputFolder }}/_envcommon/"
+    variables:
+      - name: IsEnvCommon
+        type: bool
+        default: true
+hooks:
+  after:
+    # Format the rendered HCL files
+    - command: terragrunt
+      args:
+        - "hclfmt"
+        - "--terragrunt-working-dir"

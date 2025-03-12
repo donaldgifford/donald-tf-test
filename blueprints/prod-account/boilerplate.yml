@@ -11,11 +11,14 @@ variables:
   - name: AWSRegion
     description: The name of the AWS Region being deployed to.
 
+  - name: AccountType
+    description: Account type Prod or Nonprod
+
   # The following are convenience variables for DRY-ing up the dependencies. These are not intended to be
   # updated/provided by users. We follow the Go convention of camelCase instead of TitleCase.
   - name: accountOutputFolder
     description: "The output folder that denotes the account in the infrastructure-live folder structure."
-    default: "{{ outputFolder }}/{{ .AWSAccountName }}/"
+    default: "{{ outputFolder }}/{{ .AccountType }}/{{ .AWSAccountName }}/"
   - name: accountRegionOutputFolder
     description: "The output folder that denotes the region in the infrastructure-live folder structure."
     default: "{{ .accountOutputFolder }}/{{ .AWSRegion }}/"
@@ -28,10 +31,6 @@ dependencies:
   - name: region-root
     template-url: "{{ templateFolder }}/../../templates/_root/region"
     output-folder: "{{ .accountRegionOutputFolder }}"
-
-  - name: s3-blueprint
-    template-url: "{{ templateFolder }}/../s3"
-    output-folder: "{{ outputFolder }}"
 
   - name: permissions-sets-blueprint
     template-url: "{{ templateFolder }}/../permissions-sets"

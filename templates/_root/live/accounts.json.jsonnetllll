@@ -1,0 +1,11 @@
+function(boilerplateVars) {
+  Accounts: [
+    {
+      name: sd.name,
+      AWSAccountID: sd.AWSAccountID,
+    }
+    for sd in boilerplateVars.Accounts
+    ]
+
+
+}
